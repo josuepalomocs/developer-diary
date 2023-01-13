@@ -7,18 +7,21 @@ interface CardListProps {
 
 export default function CardList({ cards }: CardListProps) {
   function renderCards() {
-    return cards.map(({ title, description, date, tags }, index) => {
-      return (
-        <li key={index}>
-          <Card
-            title={title}
-            description={description}
-            tags={tags}
-            date={date}
-          />
-        </li>
-      );
-    });
+    return cards.map(
+      ({ title, description, date, tags, lengthInMinutes }, index) => {
+        return (
+          <li key={index}>
+            <Card
+              title={title}
+              description={description}
+              tags={tags}
+              lengthInMinutes={lengthInMinutes}
+              date={date}
+            />
+          </li>
+        );
+      }
+    );
   }
 
   return (

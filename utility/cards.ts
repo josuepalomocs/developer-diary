@@ -17,6 +17,10 @@ function getRandomCardTags(): Tag[] {
   ];
 }
 
+function getRandomCardLengthInMinutes() {
+  return faker.random.numeric(2);
+}
+
 function getRandomCardDate() {
   return faker.date.recent(30);
 }
@@ -29,7 +33,8 @@ export function getCards() {
       title: getRandomCardTitle(),
       description: getRandomCardDescription(),
       tags: getRandomCardTags(),
-      date: getRandomCardDate(),
+      lengthInMinutes: Number(getRandomCardLengthInMinutes()),
+      date: getRandomCardDate().toISOString(),
     });
   }
 
