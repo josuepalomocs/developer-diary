@@ -13,7 +13,6 @@ interface HomeProps {
 }
 
 export default function Home({ cardsJSONString }: HomeProps) {
-  console.log(JSON.parse(cardsJSONString)[0].date);
   const [cards] = useState<CardType[]>(JSON.parse(cardsJSONString));
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSort, setSelectedSort] = useState<SortOptions>("Newest first");
@@ -78,12 +77,12 @@ export default function Home({ cardsJSONString }: HomeProps) {
 
   function renderResultCountText(length: number) {
     if (!length) {
-      return "No relevant results found";
+      return "No relevant articles found";
     }
     if (length === 1) {
-      return "Showing 1 result";
+      return "Showing 1 article";
     }
-    return `Showing ${length} results`;
+    return `Showing ${length} articles`;
   }
 
   return (
@@ -92,7 +91,7 @@ export default function Home({ cardsJSONString }: HomeProps) {
         <title>Josue Palomo</title>
         <meta
           name="description"
-          content="Welcome to my personal website. I will be posting regular entries discussing new things I learn and apply to my work as a software developer."
+          content="Welcome to my personal website where I'll be regularly posting about my web development journey."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -105,7 +104,7 @@ export default function Home({ cardsJSONString }: HomeProps) {
               handleChangeSelectedSort={handleChangeSelectedSort}
             />
           </div>
-          <p className="text-gray-500 font-medium mb-4">
+          <p className="text-gray-500 mb-4">
             {renderResultCountText(resultCards.length)}
           </p>
           <CardList cards={resultCards} />
