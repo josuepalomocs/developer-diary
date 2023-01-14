@@ -8,7 +8,7 @@ interface CardListProps {
 export default function CardList({ cards }: CardListProps) {
   function renderCards() {
     return cards.map(
-      ({ title, description, date, tags, lengthInMinutes }, index) => {
+      ({ title, description, date, tags, lengthInMinutes, href }, index) => {
         return (
           <li key={index}>
             <Card
@@ -17,6 +17,7 @@ export default function CardList({ cards }: CardListProps) {
               tags={tags}
               lengthInMinutes={lengthInMinutes}
               date={date}
+              href={href}
             />
           </li>
         );

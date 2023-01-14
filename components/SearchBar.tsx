@@ -22,7 +22,7 @@ export default function SearchBar({ id, handleChange }: SearchBarProps) {
         className="w-full h-full text-gray-500 bg-gray-50 focus:outline-0 placeholder:text-gray-500 focus:border-gray-500 -webkit-appearance-none"
         id={id}
         type="search"
-        placeholder="Search posts..."
+        placeholder="Search articles..."
         onChange={handleChange}
         onFocus={() => {
           setIsFocused(true);

@@ -35,6 +35,7 @@ export function getCards() {
       tags: getRandomCardTags(),
       lengthInMinutes: Number(getRandomCardLengthInMinutes()),
       date: getRandomCardDate().toISOString(),
+      href: `/articles/${i + 1}`,
     });
   }
 

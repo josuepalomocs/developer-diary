@@ -6,6 +6,7 @@ export interface Card {
   tags: Tag[];
   lengthInMinutes: number;
   date: string;
+  href: string;
 }
 export interface Tag {
   name: string;
@@ -17,3 +18,20 @@ export type SortOptions =
   | "Oldest first"
   | "Shortest first"
   | "Longest first";
+
+export interface IntroductoryContent {
+  title: string;
+  description: string;
+  tags: Tag[];
+  lengthInMinutes: number;
+  date: string;
+}
+
+export interface BodyParagraph {
+  content: string;
+}
+
+export interface Article {
+  introductoryContent: IntroductoryContent;
+  bodyContent: BodyParagraph[];
+}

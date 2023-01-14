@@ -11,6 +11,7 @@ export default function Card({
   tags,
   lengthInMinutes,
   date,
+  href,
 }: CardProps) {
   function renderTags() {
     return tags.map((tag, index) => {
@@ -20,7 +21,7 @@ export default function Card({
 
   return (
     <section className="m-2 p-4 rounded max-w-sm bg-gray-50 border border-gray-200 rounded-none">
-      <h4 className="mb-2 font-bold text-gray-800">{title}</h4>
+      <h4 className="mb-2 font-bold text-gray-800 line-clamp-1">{title}</h4>
       <p className="text-gray-500 h-20 mb-2 line-clamp-3">{description}</p>
       <div className="flex justify-between items-center mb-6">
         <div className="flex">{renderTags()}</div>
@@ -34,7 +35,7 @@ export default function Card({
         <Link
           className="flex gap-1 text-sm font-bold px-4 py-3 text-sky-500 bg-sky-100 cursor-pointer rounded-none
             hover:outline hover:outline-1 hover:outline-sky-500 focus:outline focus:outline-sky-500"
-          href="#"
+          href={href}
         >
           VIEW ARTICLE
         </Link>
