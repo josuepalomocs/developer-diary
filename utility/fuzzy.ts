@@ -1,5 +1,5 @@
 import { fuzzy } from "fast-fuzzy";
-import { Card, Tag } from "../types";
+import { Card } from "../types";
 import { formatDate } from "./dayjs";
 
 function fuzzySearchCardTitle(query: string, title: string, threshold: number) {
@@ -14,16 +14,16 @@ function fuzzySearchCardDescription(
   return fuzzy(query, description) > threshold;
 }
 
-function fuzzySearchCardTags(query: string, tags: Tag[], threshold: number) {
+function fuzzySearchCardTags(query: string, tags: string[], threshold: number) {
   for (let i = 0; i < tags.length; i++) {
-    if (fuzzy(query, tags[i].name) > threshold) {
+    if (fuzzy(query, tags[i]) > threshold) {
       return true;
     }
   }
   return false;
 }
 
-function fuzzySearchCardDate(query: string, date: Date, threshold: number) {
+function fuzzySearchCardDate(query: string, date: string, threshold: number) {
   const formattedDate = formatDate(date, "MMM DD, YYYY");
   return fuzzy(query, formattedDate) > threshold;
 }

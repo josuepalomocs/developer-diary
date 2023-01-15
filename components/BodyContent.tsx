@@ -1,15 +1,13 @@
-import { BodyParagraph } from "../types";
-
 interface BodyContentProps {
-  bodyParagraphs: BodyParagraph[];
+  bodyParagraphs: string[];
 }
 
 export default function BodyContent({ bodyParagraphs }: BodyContentProps) {
   function renderBodyParagraphs() {
-    return bodyParagraphs.map(({ content }, index) => {
+    return bodyParagraphs.map((bodyParagraph, index) => {
       return (
         <p key={index} className="mb-4">
-          {content}
+          {bodyParagraph}
         </p>
       );
     });

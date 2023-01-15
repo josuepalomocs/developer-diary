@@ -18,6 +18,10 @@ module.exports = {
         "4xl": "2.441rem",
         "5xl": "3.052rem",
       },
+      animation: { typing: "typing 1s" },
+      keyframes: {
+        typing: { "0%": { width: "0" }, "100%": { width: "100%" } },
+      },
     },
   },
   plugins: [require("@tailwindcss/line-clamp"), require("autoprefixer")],

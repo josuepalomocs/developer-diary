@@ -13,12 +13,12 @@ export default function IntroductoryContent({
 }: IntroductoryContentProps) {
   function renderTags() {
     return tags.map((tag, index) => {
-      return <Tag key={index} name={tag.name} />;
+      return <Tag key={index} name={tag} />;
     });
   }
 
   return (
-    <section className="mb-12">
+    <section className="mb-10">
       <h1 className="text-2xl font-bold text-gray-800 mb-4">{title}</h1>
       <div className="flex items-center gap-6 mb-2">
         <p className="text-sm text-gray-500">

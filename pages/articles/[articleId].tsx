@@ -1,19 +1,19 @@
-import { useRouter } from "next/router";
 import PageWrapper from "../../components/PageWrapper";
 import Head from "next/head";
-import { NextPageContext } from "next";
 import Article from "../../components/Article";
+import { Article as ArticleType, IntroductoryContent } from "../../types";
+import { createClient } from "next-sanity";
+import { formatDate } from "../../utility/dayjs";
+import { useState } from "react";
 
-export default function Articles() {
-  const router = useRouter();
+interface ArticlesProps {
+  articleJSONString: string;
+}
 
-  const tags = [{ name: "JPA" }, { name: "Java" }, { name: "Spring" }];
+export default function Articles({ articleJSONString }: ArticlesProps) {
+  const [article] = useState<ArticleType>(JSON.parse(articleJSONString));
 
-  // function renderTags() {
-  //   return tags.map((tag, index) => {
-  //     return <Tag key={index} name={tag.name} />;
-  //   });
-  // }
+  const { id, introductoryContent, bodyContent } = article;
 
   return (
     <>
@@ -31,32 +31,9 @@ export default function Articles() {
           <div className="mb-24"></div>
           <main className="">
             <Article
-              introductoryContent={{
-                title: "My first encounter with Spring JPA",
-                description:
-                  "This guide walks you through the process of building an application that uses Spring Data JPA to store and retrieve data in a relational database.",
-                tags: [{ name: "Spring" }, { name: "Java" }, { name: "JPA" }],
-                lengthInMinutes: 10,
-                date: "2022-10-05T14:48:00.000Z",
-              }}
-              bodyContent={[
-                {
-                  content:
-                    "Here you have a Customer class with three attributes: id, firstName, and lastName. You also have two constructors. The default constructor exists only for the sake of JPA. You do not use it directly, so it is designated as protected. The other constructor is the one you use to create instances of Customer to be saved to the database.",
-                },
-                {
-                  content:
-                    "Here you have a Customer class with three attributes: id, firstName, and lastName. You also have two constructors. The default constructor exists only for the sake of JPA. You do not use it directly, so it is designated as protected. The other constructor is the one you use to create instances of Customer to be saved to the database.",
-                },
-                {
-                  content:
-                    "Here you have a Customer class with three attributes: id, firstName, and lastName. You also have two constructors. The default constructor exists only for the sake of JPA. You do not use it directly, so it is designated as protected. The other constructor is the one you use to create instances of Customer to be saved to the database.",
-                },
-                {
-                  content:
-                    "Here you have a Customer class with three attributes: id, firstName, and lastName. You also have two constructors. The default constructor exists only for the sake of JPA. You do not use it directly, so it is designated as protected. The other constructor is the one you use to create instances of Customer to be saved to the database.",
-                },
-              ]}
+              id={id}
+              introductoryContent={introductoryContent}
+              bodyContent={bodyContent}
             />
           </main>
         </div>
@@ -65,10 +42,86 @@ export default function Articles() {
   );
 }
 
-export async function getServerSideProps(context: NextPageContext) {
-  const req = context.req;
+const client = createClient({
+  projectId: "ww9idko8",
+  dataset: "production",
+  apiVersion: formatDate(new Date().toISOString(), "YYYY-MM-DD"),
+  useCdn: false,
+});
+
+export async function getStaticPaths() {
+  const articlesFromCMS = await client.fetch(`*[_type == "article"]`);
+
+  let articles: ArticleType[] = [];
+
+  for (let i = 0; i < articlesFromCMS.length; i++) {
+    const {
+      id,
+      title,
+      description,
+      tags,
+      lengthInMinutes,
+      date,
+    }: IntroductoryContent & { id: number } = articlesFromCMS[i];
+
+    const { bodyParagraphs } = articlesFromCMS[i];
+
+    articles[i] = {
+      id,
+      introductoryContent: {
+        title,
+        description,
+        tags,
+        lengthInMinutes,
+        date,
+      },
+      bodyContent: bodyParagraphs,
+    };
+  }
+
+  const paths = articles.map(({ id }) => {
+    return { params: { articleId: id.toString() } };
+  });
 
   return {
-    props: {},
+    paths,
+    fallback: false,
+  };
+}
+
+export async function getStaticProps({
+  params: { articleId },
+}: {
+  params: { articleId: number };
+}) {
+  const articleFromCMS = await client.fetch(
+    `*[_type == "article" && id == ${articleId}]`
+  );
+
+  const {
+    id,
+    title,
+    description,
+    tags,
+    lengthInMinutes,
+    date,
+  }: IntroductoryContent & { id: number } = articleFromCMS[0];
+
+  const { bodyParagraphs } = articleFromCMS[0];
+
+  const article = {
+    id,
+    introductoryContent: {
+      title,
+      description,
+      tags,
+      lengthInMinutes,
+      date,
+    },
+    bodyContent: bodyParagraphs,
+  };
+
+  return {
+    props: { articleJSONString: JSON.stringify(article) },
   };
 }
