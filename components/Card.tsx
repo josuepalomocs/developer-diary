@@ -15,7 +15,7 @@ export default function Card({
 }: CardProps) {
   function renderTags() {
     return tags.map((tag, index) => {
-      return <Tag key={index} name={tag.name} />;
+      return <Tag key={index} name={tag} />;
     });
   }
 

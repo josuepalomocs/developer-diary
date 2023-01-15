@@ -5,6 +5,7 @@ import BodyContent from "./BodyContent";
 interface ArticleProps extends ArticleType {}
 
 export default function Article({
+  id,
   introductoryContent,
   bodyContent,
 }: ArticleProps) {

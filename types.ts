@@ -1,16 +1,10 @@
-import { ReactNode } from "react";
-
 export interface Card {
   title: string;
   description: string;
-  tags: Tag[];
+  tags: string[];
   lengthInMinutes: number;
   date: string;
   href: string;
-}
-export interface Tag {
-  name: string;
-  icon?: ReactNode;
 }
 
 export type SortOptions =
@@ -22,16 +16,13 @@ export type SortOptions =
 export interface IntroductoryContent {
   title: string;
   description: string;
-  tags: Tag[];
+  tags: string[];
   lengthInMinutes: number;
   date: string;
 }
 
-export interface BodyParagraph {
-  content: string;
-}
-
 export interface Article {
+  id: number;
   introductoryContent: IntroductoryContent;
-  bodyContent: BodyParagraph[];
+  bodyContent: string[];
 }
