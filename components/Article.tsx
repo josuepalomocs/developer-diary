@@ -13,7 +13,7 @@ export default function Article({
     introductoryContent;
 
   return (
-    <article className="max-w-xl">
+    <article className="max-w-xl mt-12 mb-6">
       <IntroductoryContent
         title={title}
         description={description}

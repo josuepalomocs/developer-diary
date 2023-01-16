@@ -26,7 +26,7 @@ export default function CardList({ cards }: CardListProps) {
   }
 
   return (
-    <ul className="grid grid-cols-3 justify-center max-w-full">
+    <ul className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 justify-center max-w-full">
       {renderCards()}
     </ul>
   );

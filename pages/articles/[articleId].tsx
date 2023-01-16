@@ -1,10 +1,9 @@
 import PageWrapper from "../../components/PageWrapper";
 import Head from "next/head";
-import Article from "../../components/Article";
-import { Article as ArticleType, IntroductoryContent } from "../../types";
-import { createClient } from "next-sanity";
-import { formatDate } from "../../utility/dayjs";
+import { Article as ArticleType } from "../../types";
 import { useState } from "react";
+import ArticleSection from "../../components/ArticleSection";
+import { getArticleById, getArticles } from "../../services/articles";
 
 interface ArticlesProps {
   articleJSONString: string;
@@ -26,58 +25,19 @@ export default function Articles({ articleJSONString }: ArticlesProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PageWrapper>
-        <div className="flex flex-col h-full justify-center items-center">
-          <div className="mb-24"></div>
-          <main className="">
-            <Article
-              id={id}
-              introductoryContent={introductoryContent}
-              bodyContent={bodyContent}
-            />
-          </main>
-        </div>
+      <PageWrapper as="div">
+        <ArticleSection
+          id={id}
+          introductoryContent={introductoryContent}
+          bodyContent={bodyContent}
+        />
       </PageWrapper>
     </>
   );
 }
 
-const client = createClient({
-  projectId: "ww9idko8",
-  dataset: "production",
-  apiVersion: formatDate(new Date().toISOString(), "YYYY-MM-DD"),
-  useCdn: false,
-});
-
 export async function getStaticPaths() {
-  const articlesFromCMS = await client.fetch(`*[_type == "article"]`);
-
-  let articles: ArticleType[] = [];
-
-  for (let i = 0; i < articlesFromCMS.length; i++) {
-    const {
-      id,
-      title,
-      description,
-      tags,
-      lengthInMinutes,
-      date,
-    }: IntroductoryContent & { id: number } = articlesFromCMS[i];
-
-    const { bodyParagraphs } = articlesFromCMS[i];
-
-    articles[i] = {
-      id,
-      introductoryContent: {
-        title,
-        description,
-        tags,
-        lengthInMinutes,
-        date,
-      },
-      bodyContent: bodyParagraphs,
-    };
-  }
+  const articles = await getArticles();
 
   const paths = articles.map(({ id }) => {
     return { params: { articleId: id.toString() } };
@@ -92,34 +52,9 @@ export async function getStaticPaths() {
 export async function getStaticProps({
   params: { articleId },
 }: {
-  params: { articleId: number };
+  params: { articleId: string };
 }) {
-  const articleFromCMS = await client.fetch(
-    `*[_type == "article" && id == ${articleId}]`
-  );
-
-  const {
-    id,
-    title,
-    description,
-    tags,
-    lengthInMinutes,
-    date,
-  }: IntroductoryContent & { id: number } = articleFromCMS[0];
-
-  const { bodyParagraphs } = articleFromCMS[0];
-
-  const article = {
-    id,
-    introductoryContent: {
-      title,
-      description,
-      tags,
-      lengthInMinutes,
-      date,
-    },
-    bodyContent: bodyParagraphs,
-  };
+  const article = (await getArticleById(Number(articleId)))[0];
 
   return {
     props: { articleJSONString: JSON.stringify(article) },

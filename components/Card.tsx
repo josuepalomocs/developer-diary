@@ -20,9 +20,9 @@ export default function Card({
   }
 
   return (
-    <section className="m-2 p-4 rounded max-w-sm bg-gray-50 border border-gray-200 rounded-none">
-      <h4 className="mb-2 font-bold text-gray-800 line-clamp-1">{title}</h4>
-      <p className="text-gray-500 h-20 mb-2 line-clamp-3">{description}</p>
+    <section className="m-4 p-4 rounded max-w-sm bg-gray-50 border border-gray-200 rounded-none">
+      <h4 className="mb-2 font-bold text-gray-800 lg:line-clamp-1">{title}</h4>
+      <p className="text-gray-500 mb-6 lg:line-clamp-3">{description}</p>
       <div className="flex justify-between items-center mb-6">
         <div className="flex">{renderTags()}</div>
         <p className="text-sm text-gray-500">{lengthInMinutes} minutes</p>

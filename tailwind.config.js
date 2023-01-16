@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -5,6 +7,10 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      xs: "540px",
+      ...defaultTheme.screens,
+    },
     extend: {
       fontFamily: {
         sans: ["Sofia Sans"],
@@ -20,7 +26,10 @@ module.exports = {
       },
       animation: { typing: "typing 1s" },
       keyframes: {
-        typing: { "0%": { width: "0" }, "100%": { width: "100%" } },
+        typing: {
+          "0%": { width: "0" },
+          "100%": { width: "100%" },
+        },
       },
     },
   },
