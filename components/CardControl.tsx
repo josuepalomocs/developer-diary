@@ -20,7 +20,7 @@ export default function CardControl({
   ];
 
   return (
-    <div className="flex justify-center items-center gap-4 w-1/3 h-24">
+    <div className="flex justify-center items-center gap-4 w-full xs:w-[540px] px-4 h-24">
       <SearchBar id="search-posts" handleChange={handleChangeSearchQuery} />
       <Select
         id="sort-posts"
